@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ctf",
+  "name": "Capture the Flag",
+  "description": "Da Flag must be found.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["chicomon", "DHerls"],
+  "credits": "Alex and Dan",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
