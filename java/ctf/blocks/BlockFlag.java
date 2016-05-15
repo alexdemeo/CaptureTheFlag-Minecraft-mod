@@ -5,6 +5,7 @@ import java.util.Random;
 import ctf.blocks.tileentity.FlagTileEntity;
 import ctf.main.Main;
 import ctf.main.Things;
+import net.minecraft.block.BlockBeacon;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.world.World;
 
 public class BlockFlag extends BlockContainer {
@@ -24,6 +26,7 @@ public class BlockFlag extends BlockContainer {
 		this.setBlockName("flag");
 		this.setCreativeTab(Main.creativeTab);
 		this.setBlockUnbreakable();
+		this.setResistance(100);
 	}
 	
 	@Override

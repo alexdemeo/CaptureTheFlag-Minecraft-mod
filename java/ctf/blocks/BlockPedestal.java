@@ -10,7 +10,9 @@ import ctf.blocks.tileentity.FlagTileEntity;
 import ctf.blocks.tileentity.PedestalTileEntity;
 import ctf.main.Main;
 import ctf.main.Things;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,8 +20,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockPedestal extends BlockContainer {
@@ -32,6 +37,7 @@ public class BlockPedestal extends BlockContainer {
 		this.setCreativeTab(Main.creativeTab);
 		this.setBlockName("pedestal");
 		this.setHardness(0);
+		this.setResistance(100);
 	}
 
 	@Override
@@ -76,18 +82,19 @@ public class BlockPedestal extends BlockContainer {
 		t.setFrozen();
 		ArrayList<String> currentMembers = t.getMembers();
 		if (currentMembers.contains(this.player.getDisplayName())) {									//check if player is on team
-			if (this.player.inventory.hasItem(Item.getItemFromBlock(Things.flag))) {
+			if (this.player.inventory.hasItem(Item.getItemFromBlock(Things.flag)) && !(world.getBlock(x, y + 1, z) instanceof BlockFlag)) {
 				this.player.inventory.consumeInventoryItem(Item.getItemFromBlock(Things.flag));
 				world.setBlock(x, y + 1, z, Things.flag);
-				Main.instance.sendPlayerMessage(this.player, "You returned your flag");
-			} else Main.instance.sendPlayerMessage(this.player, "You're already on this team");
+				Main.instance.announceMessage(this.player.getDisplayName() + " has returned their flag!");
+			} else Main.instance.sendPlayerMessage(this.player, "You're already on team " + t.getMembers());
 			return;
 		} else if (currentMembers.size() == 2) {														//if player isn't on team, but team is full
 			if (world.getBlock(x, y + 1, z) instanceof BlockFlag) { 									//if there's a flag, take it
-				Main.instance.sendPlayerMessage(this.player, "Steal the flag");
+				Main.instance.announceMessage(this.player.getDisplayName() + " has stolen the flag of " + t.getMembers());
 				BlockFlag flag = (BlockFlag)world.getBlock(x, y + 1, z);
 				world.setBlock(x, y + 1, z, Blocks.air);
 				this.player.inventory.addItemStackToInventory(new ItemStack(flag));
+				this.player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1200, 0, false));
 				return;
 			} else {																					//there must be no flag to take
 				Main.instance.sendPlayerMessage(this.player, "There's no flag here to steal...");
@@ -98,8 +105,7 @@ public class BlockPedestal extends BlockContainer {
 				Main.instance.sendPlayerMessage(this.player, "You have founded a team at (" + x + " "+ y + " " + z + ")");
 				world.setBlock(x, y + 1, z, Things.flag);
 			}
-			if (t.addMember(this.player.getDisplayName())) {													//try to add player to team the team
-//				this.setBlockUnbreakable();	
+			if (t.addMember(this.player.getDisplayName())) {											//try to add player to team the team
 				Main.instance.sendPlayerMessage(this.player, "Members of this team are " + t.getMembers() + " at " + "(" + x + " "+ y + " " + z + ")");
 			} else {																					//this should never run, but i felt obligated to put it here
 				Main.instance.sendPlayerMessage(this.player, "You're already on this team bud");

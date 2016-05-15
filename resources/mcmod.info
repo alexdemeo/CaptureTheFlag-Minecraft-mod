@@ -7,8 +7,8 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["chicomon", "DHerls"],
-  "credits": "Alex and Dan",
+  "authorList": ["chicomon", "Nzoner"],
+  "credits": "Alex and Nick",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

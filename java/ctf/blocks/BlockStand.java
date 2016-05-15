@@ -31,7 +31,7 @@ public class BlockStand extends BlockContainer {
 		this.setCreativeTab(Main.creativeTab);
 		this.setBlockName("stand");
 		this.setHardness(0);
-
+		this.setResistance(100);
 	}
 
 	@Override
@@ -63,16 +63,6 @@ public class BlockStand extends BlockContainer {
 	@Override
 	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
 		world.scheduleBlockUpdate(x, y, z, this, 5);
-		if (!canClick) {
-			return;
-		}
-		
-		canClick = false;
-		if (world.getBlock(x, y + 1, z) instanceof BlockFlag) {
-			System.out.println("CALLL");
-			world.setBlockToAir(x, y + 1, z);
-			this.player.inventory.addItemStackToInventory(new ItemStack(Things.flag));
-		}
 	}
 
 	@Override

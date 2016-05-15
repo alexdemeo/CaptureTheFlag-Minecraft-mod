@@ -1,5 +1,7 @@
 package ctf.main;
 
+import java.util.Iterator;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -15,18 +17,17 @@ import ctf.blocks.tileentity.PedestalTileEntity;
 import ctf.blocks.tileentity.StandTileEntity;
 import ctf.events.EventHandle;
 import ctf.proxy.CommonProxy;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "ctf", version = "1.0", name="CTF")
+@Mod(modid = Res.MODID, version = Res.VERSION, name=Res.NAME)
 public class Main {
 	
 	@SidedProxy(clientSide="ctf.proxy.ClientProxy", serverSide="ctf.proxy.ServerProxy", modId="ctf")
@@ -35,7 +36,7 @@ public class Main {
 	@Metadata
 	public static ModMetadata meta;
 	
-	@Instance(value="ctf")
+	@Instance(value=Res.MODID)
 	public static Main instance;
 
 	public static CreativeTabs creativeTab = new CreativeTabs("CTF") {
@@ -70,5 +71,12 @@ public class Main {
     public void sendPlayerMessage(EntityPlayer player, String message) {
     	player.addChatMessage(new ChatComponentText(message));
     	System.out.println("To player " + player.getDisplayName() + ": " + message);
+    }
+    
+    public void announceMessage(String message) {
+    	Iterator i = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
+    	while (i.hasNext()) {
+    		this.sendPlayerMessage((EntityPlayer)i.next(), message);
+    	}
     }
 }

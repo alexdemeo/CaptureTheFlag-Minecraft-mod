@@ -12,16 +12,15 @@ import net.minecraft.tileentity.TileEntity;
 
 public class PedestalTileEntity extends TileEntity {
 
-	private ArrayList<String> members = new ArrayList<>();
+	private ArrayList<String> members = new ArrayList<String>();
 	private boolean frozen = false;
-	public PedestalTileEntity() {
-
-	}
+	
+	public PedestalTileEntity() {}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		this.members = new ArrayList<>();
+		this.members = new ArrayList<String>();
 		NBTTagList tags = (NBTTagList) tag.getTag("members");
 		for (int i = 0; i < tags.tagCount(); i++) {
 			NBTTagCompound comp = tags.getCompoundTagAt(i);
