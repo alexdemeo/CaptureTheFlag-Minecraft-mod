@@ -1,7 +1,10 @@
 package ctf.items.render;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.GL11;
 
+import ctf.blocks.tileentity.FlagTileEntity;
 import ctf.models.ModelFlag;
 import ctf.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
@@ -32,28 +35,29 @@ public class RenderItemFlag implements IItemRenderer {
 		return false;
 	}
 
+	private static int rr = FlagTileEntity.rand.nextInt(FlagTileEntity.numFlags);
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		switch (type) {
 		case EQUIPPED:
 			GL11.glPushMatrix();
-			GL11.glScalef(1.0F, 1.0F, 1.0F);
-			GL11.glTranslatef(-0.1F, 1.15F, -0.4F);
+			GL11.glScalef(1.5F, 1.5F, 1.5F);
+			GL11.glTranslatef(-0.2F, 1.15F, -0.4F);
 			GL11.glRotatef(-80, 0, 1, 0); //y
 			GL11.glRotatef(200, 1, 0, 0); //z
 			GL11.glRotatef(-20, 0, 0, 1);
-			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("ctf:render/flag_0.png"));
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("ctf:render/flag_" + rr + ".png"));
 			model.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED_FIRST_PERSON:
 			GL11.glPushMatrix();
-			GL11.glScalef(1, 1, 1);
-			GL11.glTranslatef(1F, 1.15F, 0.5F);
+			GL11.glScalef(1.5F, 1.5F, 1.5F);
+			GL11.glTranslatef(0.8F, 1.15F, 0.5F);
 			GL11.glRotatef(180, 1, 0, 0);
 			GL11.glRotatef(-10, 0, 1, 0);
 			GL11.glRotatef(-7.5F, 0, 0, 1);
-			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("ctf:render/flag_0.png"));
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("ctf:render/flag_" + rr + ".png"));
 			model.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;

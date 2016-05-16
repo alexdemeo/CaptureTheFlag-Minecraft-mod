@@ -11,4 +11,9 @@ public class ItemStand extends ItemBlock {
 		super(block);
 		this.setMaxStackSize(1);
 	}
+	
+	@Override
+	public boolean shouldRotateAroundWhenRendering() {
+		return true;
+	}
 }

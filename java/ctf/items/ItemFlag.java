@@ -11,6 +11,4 @@ public class ItemFlag extends ItemBlock {
 		super(block);
 		this.setMaxStackSize(1);
 	}
-	
-	
 }

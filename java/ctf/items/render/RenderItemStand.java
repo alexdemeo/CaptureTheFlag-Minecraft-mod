@@ -37,7 +37,7 @@ public class RenderItemStand implements IItemRenderer {
 		case EQUIPPED:
 			GL11.glPushMatrix();
 			GL11.glScalef(1.0F, 1.0F, 1.0F);
-			GL11.glTranslatef(-0.125F, 1.4F, -0.35F);
+			GL11.glTranslatef(-0.15F, 1.4F, -0.35F);
 			GL11.glRotatef(-80, 0, 1, 0); //y
 			GL11.glRotatef(200, 1, 0, 0); //z
 			GL11.glRotatef(-15, 0, 0, 1);
@@ -48,7 +48,7 @@ public class RenderItemStand implements IItemRenderer {
 		case EQUIPPED_FIRST_PERSON:
 			GL11.glPushMatrix();
 			GL11.glScalef(1, 1, 1);
-			GL11.glTranslatef(0.5F, 1.75F, -0.075F);
+			GL11.glTranslatef(0.65F, 1.75F, -0.075F);
 			GL11.glRotatef(180, 1, 0, 0);
 			GL11.glRotatef(-10, 0, 1, 0);
 			GL11.glRotatef(-7.5F, 0, 0, 1);

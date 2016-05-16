@@ -6,9 +6,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class FlagTileEntity extends TileEntity {
-	private static final Random rand = new Random();
+	public static final Random rand = new Random();
 	
-	private String texture = "ctf:render/flag_"+ rand.nextInt(5) + ".png";
+	public static final int numFlags = 8;
+	
+	private String texture = "ctf:render/flag_"+ rand.nextInt(numFlags) + ".png";
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
