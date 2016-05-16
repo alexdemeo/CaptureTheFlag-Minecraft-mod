@@ -2,6 +2,7 @@ package ctf.main;
 
 import java.util.Iterator;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -15,7 +16,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import ctf.blocks.tileentity.FlagTileEntity;
 import ctf.blocks.tileentity.PedestalTileEntity;
 import ctf.blocks.tileentity.StandTileEntity;
-import ctf.events.EventHandle;
+import ctf.events.EventHandleFML;
+import ctf.events.EventHandleStandard;
 import ctf.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,7 +61,8 @@ public class Main {
 	
     @EventHandler
     public void init(FMLInitializationEvent event) {
-    	MinecraftForge.EVENT_BUS.register(new EventHandle());
+    	MinecraftForge.EVENT_BUS.register(new EventHandleStandard());
+    	FMLCommonHandler.instance().bus().register(new EventHandleFML());
     	GameRegistry.addRecipe(new ItemStack(Things.stand), new Object[] {
     			"IFI", "FIF", "OOO", 'I', Blocks.iron_block, 'F', Items.flint, 'O', Blocks.obsidian
     	});

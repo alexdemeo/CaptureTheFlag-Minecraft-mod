@@ -22,7 +22,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.BlockEvent;
 
-public class EventHandle {
+public class EventHandleStandard {
 
 	@SubscribeEvent
 	public void onBlockPlaced(BlockEvent.PlaceEvent evt) {
@@ -66,44 +66,6 @@ public class EventHandle {
 		}
 	}
 
-	private int announce = 0;
-	@SubscribeEvent
-	public void onEntityUpdate(LivingUpdateEvent evt) {
-		if (evt.entityLiving instanceof EntityPlayer) {
-			announce++;
-			EntityPlayer player = (EntityPlayer)evt.entityLiving;
-			if (announce >= 1200 && player.inventory.hasItem(Item.getItemFromBlock(Things.flag))) {
-				announce = 0;
-				Main.instance.announceMessage(player.getDisplayName() + " has a flag at x=" + (int)player.posX + " z=" + (int)player.posZ);
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlayerJoined(PlayerLoggedInEvent evt) {
-		System.out.println("JOIN");
-		Iterator i = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
-		while (i.hasNext()) {
-			EntityPlayer p = (EntityPlayer)i.next();
-			if (p.inventory.hasItem(Item.getItemFromBlock(Things.flag))) {
-				Main.instance.sendPlayerMessage(evt.player, p.getDisplayName() + " has a flag");
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlayerLeft(PlayerLoggedOutEvent evt) {
-		System.out.println("LOGOUT");
-		if (evt.player.inventory.hasItem(Item.getItemFromBlock(Things.flag))) {
-			System.out.println("WITH FLAG");
-			evt.player.inventory.consumeInventoryItem(Item.getItemFromBlock(Things.flag));
-			evt.player.worldObj.spawnEntityInWorld(new EntityItem(evt.player.worldObj, evt.player.posX, evt.player.posY, evt.player.posZ, new ItemStack(Things.flag)));
-			Main.instance.announceMessage(evt.player.getDisplayName() + " has logged out with a flag, it has dropped at (" 
-					+ evt.player.posX 
-					+ " " + evt.player.posY 
-					+ " " + evt.player.posZ + ")");
-		}
-	}
 
 	@SubscribeEvent
 	public void onItemDespawn(ItemExpireEvent evt) {
