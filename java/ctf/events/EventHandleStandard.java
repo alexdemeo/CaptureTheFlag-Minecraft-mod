@@ -12,6 +12,7 @@ import ctf.blocks.BlockStand;
 import ctf.blocks.tileentity.PedestalTileEntity;
 import ctf.main.Main;
 import ctf.main.Things;
+import net.minecraft.block.BlockBed;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -20,10 +21,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 
 public class EventHandleStandard {
-
+	private static final int radiusStand = 5;
+	private static final int radiusBed = 20;
 	@SubscribeEvent
 	public void onBlockPlaced(BlockEvent.PlaceEvent evt) {
 		if ((evt.y < 50 || evt.y > 128) && (evt.block instanceof BlockPedestal || evt.block instanceof BlockStand)) {
@@ -32,17 +34,31 @@ public class EventHandleStandard {
 		} else if (evt.block instanceof BlockFlag) {
 			evt.setCanceled(true);
 		}
-		blockCheck:
+		standCheck:
 			if (evt.block instanceof BlockStand) {
-				for (int i = evt.x - 5; i <= evt.x + 5; i++) {
-					for (int k = evt.z - 5; k <= evt.z + 5; k++) {
+				for (int i = evt.x - radiusStand; i <= evt.x + radiusStand; i++) {
+					for (int k = evt.z - radiusStand; k <= evt.z + radiusStand; k++) {
 						if (evt.world.getBlock(i, evt.y, k) instanceof BlockPedestal) {
-							break blockCheck;
+							break standCheck;
 						}
 					}
 				}
 				evt.setCanceled(true);
-				Main.instance.sendPlayerMessage(evt.player, "Stands must be within 5 blocks of a pedestal");
+				Main.instance.sendPlayerMessage(evt.player, "Stands must be within " + radiusStand + " blocks of a pedestal");
+			}
+		bedCheck:
+			if (evt.block instanceof BlockBed) {
+				for (int j = evt.y - 2; j <= evt.y + 2; j++) {
+					for (int i = evt.x - radiusBed; i <= evt.x + radiusBed; i++) {
+						for (int k = evt.z - radiusBed; k <= evt.z + radiusBed; k++) {
+							if (evt.world.getBlock(i, j, k) instanceof BlockPedestal) {
+								break bedCheck;
+							}
+						}
+					}
+				}
+				evt.setCanceled(true);
+				Main.instance.sendPlayerMessage(evt.player, "Beds must be within a " + "radiusBed" + " block lateral radius and 2 block vertical radius of a pedestal");
 			}
 	}
 
@@ -65,7 +81,6 @@ public class EventHandleStandard {
 			evt.player.inventory.addItemStackToInventory(new ItemStack(i));
 		}
 	}
-
 
 	@SubscribeEvent
 	public void onItemDespawn(ItemExpireEvent evt) {

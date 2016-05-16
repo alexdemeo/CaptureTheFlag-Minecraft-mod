@@ -1,4 +1,4 @@
-package ctf.blocks.render;
+package ctf.models;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

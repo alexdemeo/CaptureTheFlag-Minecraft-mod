@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ctf.models.ModelPedestal;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -15,10 +16,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
-public class PedestalRenderHandle extends TileEntitySpecialRenderer {
+public class RenderBlockPedestal extends TileEntitySpecialRenderer {
 
 	private ModelPedestal model;
-	public PedestalRenderHandle() {
+	public RenderBlockPedestal() {
 		this.model = new ModelPedestal();
 	}
 
