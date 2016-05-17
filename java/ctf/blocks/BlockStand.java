@@ -78,6 +78,7 @@ public class BlockStand extends BlockContainer {
 			world.setBlock(x, y + 1, z, Blocks.air);
 		} else if (this.player.inventory.hasItem(Item.getItemFromBlock(Things.flag))) {
 			Main.instance.sendPlayerMessage(this.player, "You have returned the flag!");
+			world.playSoundAtEntity(this.player, "ctf:victory", 1, 1);
 			world.setBlock(x, y + 1, z, Things.flag);
 			this.player.inventory.consumeInventoryItem(Item.getItemFromBlock(Things.flag));
 		} else {
