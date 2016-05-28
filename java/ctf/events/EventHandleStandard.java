@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.BlockEvent;import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 
@@ -88,4 +89,16 @@ public class EventHandleStandard {
 			evt.setCanceled(true);
 		}
 	}
+	
+	@SubscribeEvent
+	public void onPlayerDied(LivingDeathEvent evt) {
+		if (evt.entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)evt.entity;
+			if (player.inventory.consumeInventoryItem(Item.getItemFromBlock(Things.flag))) {
+				player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, new ItemStack(Things.flag)));
+				System.out.println(player.getDisplayName() + " dropped a flag");
+			}
+		}
+	}
+
 }
